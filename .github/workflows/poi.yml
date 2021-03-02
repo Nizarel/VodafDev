@@ -1,0 +1,43 @@
+name: POI CICD
+
+env:
+  poi_path: apis/poi/**
+  registry: docker.pkg.github.com
+  repository: hattan/openhack-devops-team-gh/api-poi
+  docker_path: apis/poi/web
+  staging_url: https://openhackxv61mxh2poi-staging.azurewebsites.net
+  prod_url: https://openhackxv61mxh2poi.azurewebsites.net
+  resource_group: openhackxv61mxh2rg
+  webapp_name: openhackxv61mxh2poi
+  build_name: POI
+
+on:
+  push:
+    branches: [ master ]
+    paths: 
+      - apis/poi/**  
+      - .github/workflows/poi.yml
+  pull_request:
+    branches: [ master ]
+    paths: 
+      - apis/poi/**
+      - .github/workflows/poi.yml
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
