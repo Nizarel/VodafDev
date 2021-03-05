@@ -78,6 +78,3 @@ jobs:
     
     - name: Docker login
       run: docker login $registry -u ${{ secrets.ACR_USER }} -p ${{ secrets.ACR_KEY }}
-
-#    - name: Docker Push
-#      run: docker push $registry/$repository:${{github.run_number}}
