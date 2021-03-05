@@ -3,7 +3,7 @@ name: User Profile CICD
 env:
   registry: openhack8acr.azurecr.io
   repository: VodafDev/apis/userprofile
-  docker_path: apis/user-java
+  docker_path: apis/userprofile
   staging_url: https://openhack8userprofile-staging.azurewebsites.net
   prod_url: https://openhack8userprofile.azurewebsites.net
   resource_group: openhack8rg
