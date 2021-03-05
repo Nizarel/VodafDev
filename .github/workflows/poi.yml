@@ -3,7 +3,7 @@ name: POI CICD
 env:
   poi_path: apis/poi/**
   registry: openhack8acr.azurecr.io
-  repository: VodafDev/apis/poi/
+  repository: /poi2
   docker_path: apis/poi/web
   staging_url: https://openhack8poi-staging.azurewebsites.net
   prod_url: https://openhack8poi.azurewebsites.net
@@ -68,3 +68,20 @@ jobs:
             title: "${{ env.build_name }} Workflow ${{ github.run_number }} Failed! ",
             body: body
           });
+  docker_build_and_push:
+    if: github.ret == 'refs/heads/master'
+    run-on: ubuntu-latest
+    needs: build_and_test
+
+    steps:
+
+    - uses: actions/checkout@v2
+    
+    - name: Docker login     
+      run: docker login $registry -u ${{ secrets.ACR_USER }} -p ${{ secrets.ACR_KEY }}
+
+    - name: Docker build
+      run: docker build -t $registry/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
+
+    - name: Docker Push
+      run: docker push $registry/$repository:${{github.run_number}}  
