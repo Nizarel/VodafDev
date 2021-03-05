@@ -38,8 +38,10 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore apis/poi/web/*.csproj
     - name: Build with dotnet
-      run: dotnet build --configuration Release --no-restore apis/poi/web/*.csproj
+      run: dotnet build --configuration Release
+      working-directory: apis/poi/web/*.csproj
     - name: Run unit tests
-      run: dotnet test --no-build --verbosity normal apis/poi/tests/UnitTests
-    - name: dotnet publish
-      run: dotnet publish -c Release -o poi
+      run: dotnet test --no-build
+      working-directory: apis/poi/tests/UnitTests
+ #   - name: dotnet publish
+ #     run: dotnet publish -c Release -o poi
