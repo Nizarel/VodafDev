@@ -69,10 +69,10 @@ jobs:
           });
   docker_build_and_push:
     if: github.ret == 'refs/heads/master'
-    run-on: ubuntu-latest
-    needs: build_and_test
-    steps:
-    - uses: actions/checkout@v2
-    
-    - name: Docker login
-      run: docker login
+      run-on: ubuntu-latest
+      needs: build_and_test
+      steps:
+      - uses: actions/checkout@v2
+      
+      - name: Docker login
+        run: docker login
