@@ -68,6 +68,7 @@ jobs:
             body: body
           });
   docker_build_and_push:
+    runs-on: ubuntu-latest
     if: github.ret == 'refs/heads/master'
     needs: build_and_test
     steps:
