@@ -43,5 +43,5 @@ jobs:
     - name: Run unit tests
       run: dotnet test --no-build
       working-directory: ./apis/poi/tests/UnitTests
- #   - name: dotnet publish
- #     run: dotnet publish -c Release -o poi
+    - name: dotnet publish
+      run: dotnet publish ./apis/poi/web/poi.csproj --configuration Release -o ./output/
