@@ -1,0 +1,43 @@
+name: POI CICD
+
+env:
+  poi_path: apis/poi/**
+  registry: openhack8acr.azurecr.io
+  repository: VodafDev/apis/poi/
+  docker_path: apis/poi/web
+  staging_url: https://openhack8poi-staging.azurewebsites.net
+  prod_url: https://openhack8poi.azurewebsites.net
+  resource_group: openhack8rg
+  webapp_name: openhack8poi
+  build_name: POI
+
+on:
+  push:
+    branches: [ master ]
+    paths: 
+      - apis/poi/**  
+      - .github/workflows/poi2.yml
+  pull_request:
+    branches: [ master ]
+    paths: 
+      - apis/poi/**
+      - .github/workflows/poi2.yml
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.202
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
