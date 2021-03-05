@@ -5,7 +5,7 @@ name: User JAVA CICD
 
 env:
   registry: openhack8acr.azurecr.io
-  repository: VodafDev/apis/poi/api-user-java
+  repository: VodafDev/apis/user-java
   docker_path: apis/user-java
   staging_url: https://openhack8userjava-staging.azurewebsites.net
   prod_url: https://openhack8userjava.azurewebsites.net
