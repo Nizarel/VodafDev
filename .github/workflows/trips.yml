@@ -1,0 +1,49 @@
+name: Trips CICD
+
+env:
+  registry: openhack8acr.azurecr.io
+  repository: VodafDev/apis/trips
+  docker_path: apis/trips
+  staging_url: https://openhack8trips-staging.azurewebsites.net
+  prod_url: https://openhack8trips.azurewebsites.net
+  resource_group: openhack8rg
+  webapp_name: openhack8trips
+  build_name: Trips
+  webv_path: apis/trips/webvalidate
+
+
+on:
+  push:
+    branches: [ master ]
+    paths: 
+      - apis/trips/**  
+      - .github/workflows/trips.yml
+  pull_request:
+    branches: [ master ]
+    paths: 
+      - apis/trips/**
+      - .github/workflows/trips.yml
+
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: apis/trips    
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      run: go test -v ./...
