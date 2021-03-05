@@ -81,3 +81,4 @@ jobs:
     - name: Docker Push
       run: docker push $registry/$repository:${{github.run_number}}
 
+# https://docs.microsoft.com/en-us/azure/container-instances/container-instances-github-action
