@@ -39,9 +39,9 @@ jobs:
       run: dotnet restore apis/poi/web/*.csproj
     - name: Build with dotnet
       run: dotnet build --configuration Release
-      working-directory: apis/poi/web/*.csproj
+      working-directory: ./apis/poi/web
     - name: Run unit tests
       run: dotnet test --no-build
-      working-directory: apis/poi/tests/UnitTests
+      working-directory: ./apis/poi/tests/UnitTests
  #   - name: dotnet publish
  #     run: dotnet publish -c Release -o poi
