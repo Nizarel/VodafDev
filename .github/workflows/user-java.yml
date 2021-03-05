@@ -4,20 +4,29 @@
 name: User JAVA CICD
 
 env:
-  registry: docker.pkg.github.com
-  repository: hattan/openhack-devops-team-gh/api-user-java
+  registry: openhack8acr.azurecr.io
+  repository: VodafDev/apis/poi/api-user-java
   docker_path: apis/user-java
-  staging_url: https://openhackxv61mxh2userjava-staging.azurewebsites.net/
-  prod_url: https://openhackxv61mxh2userjava.azurewebsites.net/
-  resource_group: openhackxv61mxh2rg
-  webapp_name: openhackxv61mxh2userjava
+  staging_url: https://openhack8userjava-staging.azurewebsites.net
+  prod_url: https://openhack8userjava.azurewebsites.net
+  resource_group: openhack8rg
+  webapp_name: openhack8userjava
   build_name: User Java
   webv_path: apis/user-java/webvalidate
 
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: [ master ]
+    paths: 
+      - apis/user-java/**  
+      - .github/workflows/user-java.yml
+  pull_request:
+    branches: [ master ]
+    paths: 
+      - apis/user-java/**
+      - .github/workflows/user-java.yml
+
 
 jobs:
   build:
@@ -26,10 +35,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 1.8
+    - name: Set up JDK 15
       uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: 15
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 

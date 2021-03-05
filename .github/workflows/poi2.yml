@@ -45,3 +45,4 @@ jobs:
       working-directory: ./apis/poi/tests/UnitTests
     - name: dotnet publish
       run: dotnet publish ./apis/poi/web/poi.csproj --configuration Release -o ./output/
+      # https://adamsimsy.com/2020/03/29/publish-a-aspnet-core-web-app-to-azure-using-github-actions/
