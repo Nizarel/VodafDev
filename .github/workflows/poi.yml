@@ -72,7 +72,6 @@ jobs:
     if: github.ret == 'refs/heads/master'
     run-on: ubuntu-latest
     needs: build_and_test
-
     steps:
     - uses: actions/checkout@v2
     
