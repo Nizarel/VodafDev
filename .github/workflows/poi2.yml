@@ -36,8 +36,8 @@ jobs:
       with:
         dotnet-version: 3.1.202
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore apis/poi/web/*.csproj
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --configuration Release --no-restore apis/poi/web/*.csproj
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal apis/poi/tests/UnitTests
