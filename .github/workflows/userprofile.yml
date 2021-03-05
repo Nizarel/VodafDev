@@ -1,0 +1,44 @@
+name: User Profile CICD
+
+env:
+  registry: openhack8acr.azurecr.io
+  repository: VodafDev/apis/userprofile
+  docker_path: apis/user-java
+  staging_url: https://openhack8userprofile-staging.azurewebsites.net
+  prod_url: https://openhack8userprofile.azurewebsites.net
+  resource_group: openhack8rg
+  webapp_name: openhack8userprofile
+  build_name: User Profile
+  webv_path: apis/userprofile/webvalidate
+
+on:
+  push:
+    branches: [ master ]
+    paths: 
+      - apis/userprofile/**  
+      - .github/workflows/userprofile.yml
+  pull_request:
+    branches: [ master ]
+    paths: 
+      - apis/userprofile/**
+      - .github/workflows/userprofile.yml
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 15.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
