@@ -32,6 +32,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: apis/user-java    
+
 
     steps:
     - uses: actions/checkout@v2
@@ -43,9 +48,9 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Maven
-      run: mvn -B package --file apis/user-java/pom.xml
+      run: mvn -B package #--file apis/user-java/pom.xml
     - name: Run Unit Tests
-      run: mvn test --file apis/user-java/pom.xml
+      run: mvn test #--file apis/user-java/pom.xml
 
     - uses: actions/github-script@0.9.0
       if: failure()
