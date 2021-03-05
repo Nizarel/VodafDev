@@ -16,12 +16,12 @@ on:
     branches: [ master ]
     paths: 
       - apis/poi/**  
-      - .github/workflows/poi2.yml
+      - .github/workflows/poi.yml
   pull_request:
     branches: [ master ]
     paths: 
       - apis/poi/**
-      - .github/workflows/poi2.yml
+      - .github/workflows/poi.yml
 
 
 jobs:
