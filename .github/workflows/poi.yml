@@ -69,7 +69,7 @@ jobs:
           });
   docker_build_and_push:
     runs-on: ubuntu-latest
-    if: github.ret == 'refs/heads/master'
+    if: github.ret == 'master'
     needs: build_and_test
     steps:
     - uses: actions/checkout@v2
