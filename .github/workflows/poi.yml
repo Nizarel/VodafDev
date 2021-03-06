@@ -3,7 +3,7 @@ env:
   poi_path: apis/poi/**
   registry: openhack8acr.azurecr.io
   repository: poi2
-  docker_path: apis/poi/web/Dockerfile
+  docker_path: apis/poi/web
   staging_url: https://openhack8poi-staging.azurewebsites.net
   prod_url: https://openhack8poi.azurewebsites.net
   resource_group: openhack8rg
@@ -43,13 +43,11 @@ jobs:
         username: ${{ secrets.ACR_USER }}
         password: ${{ secrets.ACR_KEY }}
 
-    - name: Build and push
-      uses: docker/build-push-action@v2
-      with:
-       file: web/Dockerfile
-       push: true
-       tags: openhack8acr.azurecr.io/poi2:latest
-  
+    - name: Docker build
+      run: docker build -t $registry/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
+
+    - name: Docker Push
+      run: docker push $registry/$repository:${{github.run_number}}  
   
 
 # https://docs.microsoft.com/en-us/azure/container-instances/container-instances-github-action
