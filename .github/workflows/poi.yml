@@ -92,7 +92,7 @@ jobs:
        context: .
        file: $docker_path
        push: true
-       tags: $registry/$repository:${{github.run_number}}
+       tags: openhack8acr.azurecr.io/poi2:latest
   
   
   
