@@ -2,7 +2,7 @@ name: POI CICD
 env:
   poi_path: apis/poi/**
   registry: openhack8acr.azurecr.io
-  repository: /poi2
+  repository: poi2
   docker_path: apis/poi/web/Dockerfile
   staging_url: https://openhack8poi-staging.azurewebsites.net
   prod_url: https://openhack8poi.azurewebsites.net
