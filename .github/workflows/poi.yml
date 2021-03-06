@@ -4,7 +4,7 @@ env:
   registry: openhack8acr.azurecr.io
   repository: poi
   docker_path: apis/poi/web
-  staging_env: openhack8poi/openhack8poi-uat
+  web_app: openhack8poi
   prod_url: https://openhack8poi.azurewebsites.net
   resource_group: openhack8rg
   webapp_name: openhack8poi
@@ -130,7 +130,7 @@ jobs:
     - name: 'Deploy to Azure Web App for Container'
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: ${{ env.staging_env }} 
+        app-name: ${{ env.web_app }} 
         images: $registry/$repository:${{github.run_number}}
 
     # https://docs.microsoft.com/en-us/azure/container-instances/container-instances-github-action
