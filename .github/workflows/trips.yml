@@ -2,7 +2,7 @@ name: Trips CICD
 
 env:
   registry: openhack8acr.azurecr.io
-  repository: VodafDev/apis/trips
+  repository: trips
   docker_path: apis/trips
   staging_url: https://openhack8trips-staging.azurewebsites.net
   prod_url: https://openhack8trips.azurewebsites.net

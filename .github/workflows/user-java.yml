@@ -5,7 +5,7 @@ name: User JAVA CICD
 
 env:
   registry: openhack8acr.azurecr.io
-  repository: VodafDev/apis/user-java
+  repository: user-java
   docker_path: apis/user-java
   staging_url: https://openhack8userjava-staging.azurewebsites.net
   prod_url: https://openhack8userjava.azurewebsites.net
@@ -29,7 +29,7 @@ on:
 
 
 jobs:
-  build:
+  build_and_test:
 
     runs-on: ubuntu-latest
     defaults:
@@ -65,9 +65,36 @@ jobs:
             body: body
           });
 
+  docker_build_and_push:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    needs: build_and_test
+    steps:
+    
+    - uses: actions/checkout@v2
+    
+    - name: 'Login to ACR'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.ACR_USER }}
+        password: ${{ secrets.ACR_KEY }}
 
+    - name: Docker build
+      run: docker build -t $registry/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
 
-  #  - name: Publish to GitHub Packages Apache Maven
-  #    run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
-  #    env:
-  #      GITHUB_TOKEN: ${{ github.token }}
+    - name: Docker Push
+      run: docker push $registry/$repository:${{github.run_number}}
+    
+    - uses: actions/github-script@0.9.0
+      if: failure()
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          let body = "${{ env.build_name }} Worflow Failure \n Build Number: ${{ github.run_number }} \n Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \n SHA: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) \n";
+          github.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: "${{ env.build_name }} Workflow ${{ github.run_number }} Failed! ",
+            body: body
+          });
