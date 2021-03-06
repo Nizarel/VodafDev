@@ -90,7 +90,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
        context: .
-       file: $docker_path
+       file: ./poi/web/Dockerfile
        push: true
        tags: openhack8acr.azurecr.io/poi2:latest
   
