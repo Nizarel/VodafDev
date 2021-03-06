@@ -5,7 +5,7 @@ env:
   repository: userprofile
   docker_path: apis/userprofile
   staging_url: https://openhack8userprofile-staging.azurewebsites.net
-  prod_url: https://openhack8userprofile.azurewebsites.net
+  web_app: openhack8userprofile
   resource_group: openhack8rg
   webapp_name: openhack8userprofile
   build_name: User Profile
@@ -93,3 +93,29 @@ jobs:
             title: "${{ env.build_name }} Workflow ${{ github.run_number }} Failed! ",
             body: body
           });
+ 
+  deploy_webapp:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    needs: docker_build_and_push
+    steps:
+    
+    - uses: actions/checkout@v2
+
+    - name: Azure authentication
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: 'Login to ACR'
+      uses: azure/docker-login@v1
+      with:
+        login-server: $registry
+        username: ${{ secrets.ACR_USER }}
+        password: ${{ secrets.ACR_KEY }}
+
+    - name: 'Deploy to Azure Web App for Container'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.web_app }} 
+        images: $registry/$repository:${{github.run_number}}
