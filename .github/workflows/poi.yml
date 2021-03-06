@@ -1,7 +1,7 @@
 name: POI CICD
 env:
   poi_path: apis/poi/**
-  registry: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+  registry: openhack8acr.azurecr.io
   repository: poi
   docker_path: apis/poi/web
   staging_url: https://openhack8poi-openhack8poi-uat.azurewebsites.net
