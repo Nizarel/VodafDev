@@ -86,8 +86,8 @@ jobs:
         username: ${{ secrets.ACR_USER }}
         password: ${{ secrets.ACR_KEY }}
     - run: |
-         run: docker build -t $registry/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
-         run: docker push $registry/$repository:${{github.run_number}}
+         docker build -t $registry/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
+         docker push $registry/$repository:${{github.run_number}}
       
 #    - name: Docker login
 #      run: docker login $registry -u ${{ secrets.ACR_USER }} -p ${{ secrets.ACR_KEY }}
