@@ -4,7 +4,7 @@ env:
   registry: openhack8acr.azurecr.io
   repository: poi
   docker_path: apis/poi/web
-  staging_env: openhack8poi-uat
+  staging_env: openhack8poi/openhack8poi-uat
   prod_url: https://openhack8poi.azurewebsites.net
   resource_group: openhack8rg
   webapp_name: openhack8poi
