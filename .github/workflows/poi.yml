@@ -2,7 +2,7 @@ name: POI CICD
 env:
   poi_path: apis/poi/**
   registry: openhack8acr.azurecr.io
-  repository: poi2
+  repository: poi
   docker_path: apis/poi/web
   staging_url: https://openhack8poi-staging.azurewebsites.net
   prod_url: https://openhack8poi.azurewebsites.net
@@ -36,12 +36,12 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    - name: 'Login to ACR'
-      uses: azure/docker-login@v1
-      with:
-        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-        username: ${{ secrets.ACR_USER }}
-        password: ${{ secrets.ACR_KEY }}
+#    - name: 'Login to ACR'
+#      uses: azure/docker-login@v1
+#      with:
+#        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+#        username: ${{ secrets.ACR_USER }}
+#        password: ${{ secrets.ACR_KEY }}
 
     - name: Docker build
       run: docker build -t $registry/$repository:${{github.run_number}} --build-arg build_version=${{github.run_number}} $docker_path
