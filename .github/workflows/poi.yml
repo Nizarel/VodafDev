@@ -130,7 +130,7 @@ jobs:
     - name: 'Deploy to Azure Web App for Container'
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: $staging_env
+        app-name: ${{ env.staging_env }} 
         images: $registry/$repository:${{github.run_number}}
 
     # https://docs.microsoft.com/en-us/azure/container-instances/container-instances-github-action
