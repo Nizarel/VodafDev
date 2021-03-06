@@ -76,15 +76,15 @@ jobs:
     
     - uses: actions/checkout@v2
 
-    - name: Azure authentication
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    # - name: Azure authentication
+    #   uses: azure/login@v1
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDENTIALS }}
     
     - name: 'Login to ACR'
       uses: azure/docker-login@v1
       with:
-        login-server: $registry
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         username: ${{ secrets.ACR_USER }}
         password: ${{ secrets.ACR_KEY }}
 
