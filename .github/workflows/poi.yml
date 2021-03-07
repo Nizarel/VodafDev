@@ -107,7 +107,7 @@ jobs:
             body: body
           });
  
-  deploy_webapp:
+  deploy_staging_webapp:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     needs: docker_build_and_push
