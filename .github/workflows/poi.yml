@@ -156,7 +156,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Check Staging App  
-      run: srt32/uptime@master
+      run: srt32/uptime@v0.2.1
       with:
         url-to-hit: $staging_url
         expected-statuses: "200"
