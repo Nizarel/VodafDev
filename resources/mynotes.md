@@ -16,7 +16,7 @@ Configure a GitHub action to push contqiner to ACR
          Assign the AcrPush role, which gives push and pull access to the registry.
            az role assignment create --assignee <ClientId> --scope $registryId --role AcrPush
     
-    3- Save credentials to GitHub repo
+   3- Save credentials to GitHub repo
 
         In the GitHub UI, navigate to your forked repository and select Settings > Secrets.
 
