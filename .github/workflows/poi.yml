@@ -6,6 +6,7 @@ env:
   docker_path: apis/poi/web
   web_app: openhack8poi
   staging_app: uat
+  staging_url: https://openhack8poi-uat.azurewebsites.net
   resource_group: openhack8rg
   webapp_name: openhack8poi
   build_name: POI
@@ -23,55 +24,55 @@ on:
       - .github/workflows/poi.yml
 
 jobs:
-  # build_and_test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v2
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
 
-  #   - name: Setup .NET Core
-  #     uses: actions/setup-dotnet@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
 
-  #   - name: Add Code Coverage Tools
-  #     working-directory: apis/poi/tests/UnitTests
-  #     run: dotnet add package coverlet.msbuild
+    - name: Add Code Coverage Tools
+      working-directory: apis/poi/tests/UnitTests
+      run: dotnet add package coverlet.msbuild
 
-  #   - name: Install dependencies
-  #     run: dotnet restore apis/poi/web/*.csproj
+    - name: Install dependencies
+      run: dotnet restore apis/poi/web/*.csproj
       
-  #   - name: .NET Build Web
-  #     run: dotnet build --configuration Release --no-restore apis/poi/web/*.csproj
+    - name: .NET Build Web
+      run: dotnet build --configuration Release --no-restore apis/poi/web/*.csproj
 
-  #   - name: .NET Build Unit Tests
-  #     run: dotnet build --configuration Release apis/poi/tests/UnitTests/UnitTests.csproj
+    - name: .NET Build Unit Tests
+      run: dotnet build --configuration Release apis/poi/tests/UnitTests/UnitTests.csproj
 
-  #   - name: .NET Test
-  #     run: dotnet test --no-restore --verbosity normal apis/poi/tests/UnitTests  /p:CollectCoverage=true /p:CoverletOutput=lcov/ /p:CoverletOutputFormat=lcov
+    - name: .NET Test
+      run: dotnet test --no-restore --verbosity normal apis/poi/tests/UnitTests  /p:CollectCoverage=true /p:CoverletOutput=lcov/ /p:CoverletOutputFormat=lcov
       
-  #   - name: Coveralls
-  #     uses: coverallsapp/github-action@master
-  #     with:
-  #       github-token: ${{ secrets.GITHUB_TOKEN }}
-  #       path-to-lcov: apis/poi/tests/UnitTests/lcov/coverage.info
-  #       base-path: apis/poi
-  #       flag-name: Unit
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: apis/poi/tests/UnitTests/lcov/coverage.info
+        base-path: apis/poi
+        flag-name: Unit
         
-  #   - uses: actions/github-script@0.9.0
-  #     if: failure()
-  #     with:
-  #       github-token: ${{secrets.GITHUB_TOKEN}}
-  #       script: |
-  #         let body = "${{ env.build_name }} Worflow Failure \n Build Number: ${{ github.run_number }} \n Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \n SHA: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) \n";
-  #         github.issues.create({
-  #           owner: context.repo.owner,
-  #           repo: context.repo.repo,
-  #           title: "${{ env.build_name }} Workflow ${{ github.run_number }} Failed! ",
-  #           body: body
-  #         });
+    - uses: actions/github-script@0.9.0
+      if: failure()
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          let body = "${{ env.build_name }} Worflow Failure \n Build Number: ${{ github.run_number }} \n Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \n SHA: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) \n";
+          github.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: "${{ env.build_name }} Workflow ${{ github.run_number }} Failed! ",
+            body: body
+          });
 
   docker_build_and_push:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
-    # needs: build_and_test
+    needs: build_and_test
     steps:
     
     - uses: actions/checkout@v2
@@ -154,14 +155,11 @@ jobs:
     steps:    
     - uses: actions/checkout@v2
 
-    - name: "Set Expected Validation Tag"
-      run: sed -i 's/<--tag-->/${{github.run_number}}/g' apis/poi/webvalidate/validate.json
-
-    - name: Build Validation Container
-      run: docker build -t poivalidate apis/poi/webvalidate
-
-    - name: Web Validate 
-      run: ./run.sh poivalidate $staging_url 
+    - name: Check Staging App  
+      run: srt32/uptime@master
+      with:
+        url-to-hit: $staging_url
+        expected-statuses: "200"
 
     - uses: actions/github-script@0.9.0
       if: failure()
