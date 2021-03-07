@@ -30,3 +30,4 @@ Configure a GitHub action to push contqiner to ACR
             REGISTRY_PASSWORD 	The clientSecret from the JSON output from the service principal creation
             RESOURCE_GROUP 	The name of the resource group you used to scope the service principal
       
+   https://docs.microsoft.com/en-us/azure/container-instances/container-instances-github-action
