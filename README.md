@@ -25,8 +25,8 @@ To understand each of the components above in more detail, please visit the read
 
 It is useful but not required to have a basic knowledge of the following topics:
 
-* Kubernetes
-* Azure DevOps (formally VSTS) or Jenkins
+* Azure Web App
+* GitHub Actions or Azure DevOps
 
 ## Resources
 
