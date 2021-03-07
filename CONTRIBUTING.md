@@ -72,5 +72,3 @@ Before you submit your Pull Request (PR) consider the following guidelines:
     git rebase master -i
     git push -f
     ```
-
-That's it! Thank you for your contribution!
