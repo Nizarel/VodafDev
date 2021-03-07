@@ -70,8 +70,8 @@ jobs:
 
   docker_build_and_push:
     runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/master'
-    needs: build_and_test
+    if: github.ref == 'refs/heads/master'
+    # needs: build_and_test
     steps:
     
     - uses: actions/checkout@v2
