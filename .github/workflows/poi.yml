@@ -134,7 +134,8 @@ jobs:
       with: 
         app-name: ${{ env.web_app }}
         slot-name: ${{ env.staging_app }}
-        images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}}
+        images: openhack8acr.azurecr.io/poi:${{github.run_number}}
+        # images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}}
 
     - uses: actions/github-script@0.9.0
       if: failure()
