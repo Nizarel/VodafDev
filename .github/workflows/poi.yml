@@ -147,7 +147,7 @@ jobs:
             title: "${{ env.build_name }} Workflow ${{ github.run_number }} Failed! ",
             body: body
           });
-  
+          
   validate_staging:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
