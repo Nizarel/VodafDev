@@ -11,7 +11,7 @@ Configure a GitHub action to push contqiner to ACR
 
    2- Update service principal for registry authentication
 
-         registryId=$(az acr show --name <resource-group-name> --query id --output tsv)
+         registryId=$(az acr show --name <acr-name> --query id --output tsv)
          
          Assign the AcrPush role, which gives push and pull access to the registry.
            az role assignment create --assignee <ClientId> --scope $registryId --role AcrPush
