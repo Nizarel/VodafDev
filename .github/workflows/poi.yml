@@ -5,8 +5,8 @@ env:
   repository: poi
   docker_path: apis/poi/web
   web_app: openhack8poi
-  staging_app: uat
-  staging_url: https://openhack8poi-uat.azurewebsites.net/api/healthcheck/poi
+  staging_app: staging
+  staging_url: https://openhack8poi-staging.azurewebsites.net/api/healthcheck/poi
   resource_group: openhack8rg
   webapp_name: openhack8poi
   build_name: POI
