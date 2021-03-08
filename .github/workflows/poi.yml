@@ -10,6 +10,7 @@ env:
   prod_url: https://openhack8poi.azurewebsites.net/api/healthcheck/poi
   resource_group: openhack8rg
   build_name: POI
+   staging_qlm: staging
 
 on:
   push:
