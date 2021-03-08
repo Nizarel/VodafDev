@@ -6,8 +6,8 @@ env:
   docker_path: apis/poi/web
   web_app: poioh
   staging_app: dev
-  staging_url: https://poioh.azurewebsites.net/api/healthcheck/poi
-  prod_url: https://poioh-dev.azurewebsites.net/api/healthcheck/poi
+  staging_url: https://poioh-dev.azurewebsites.net/api/healthcheck/poi
+  prod_url: https://poioh.azurewebsites.net/api/healthcheck/poi
   resource_group: openhack8rg
   build_name: POI
   staging_qla: staging
@@ -25,6 +25,7 @@ on:
       - .github/workflows/poi.yml
 
 jobs:
+
   build_and_test:
     runs-on: ubuntu-latest
     steps:
