@@ -158,7 +158,7 @@ jobs:
     - name: Check Staging App  
       uses: srt32/uptime@v0.2.1
       with:
-        url-to-hit: $staging_url
+        url-to-hit: ${{ env.staging_url }}
         expected-statuses: "200"
 
     - uses: actions/github-script@0.9.0
