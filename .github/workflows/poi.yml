@@ -1,16 +1,15 @@
 name: POI CICD
 env:
   poi_path: apis/poi/**
-  registry: openhack8acr.azurecr.io
+  registry: openhackgitacr.azurecr.io
   repository: poi
   docker_path: apis/poi/web
-  web_app: poioh
-  staging_app: dev
-  staging_url: https://poioh-dev.azurewebsites.net/api/healthcheck/poi
-  prod_url: https://poioh.azurewebsites.net/api/healthcheck/poi
-  resource_group: openhack8rg
+  web_app: openhackgitpoi
+  staging_app: staging
+  staging_url: https://openhackgitpoi-staging.azurewebsites.net/api/healthcheck/poi
+  prod_url: https://openhackgitpoi.azurewebsites.net/api/healthcheck/poi
+  resource_group: openhackgitrg
   build_name: POI
-  staging_qla: staging
 
 on:
   push:
@@ -135,8 +134,7 @@ jobs:
       with: 
         app-name: ${{ env.web_app }}
         slot-name: ${{ env.staging_app }}
-        images: openhack8acr.azurecr.io/poi:${{github.run_number}}
-        # images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}}
+        images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}}
 
     - uses: actions/github-script@0.9.0
       if: failure()
