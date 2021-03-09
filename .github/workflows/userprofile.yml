@@ -6,8 +6,8 @@ env:
   docker_path: apis/userprofile
   web_app: openhackgituserprofile
   staging_app: staging
-  staging_url: https://openhackgituserprofile-staging.azurewebsites.net/api/healthcheck/userprofile
-  prod_url: https://openhackgituserprofile.azurewebsites.net/api/healthcheck/userprofile
+  staging_url: https://openhackgituserprofile-staging.azurewebsites.net/api/healthcheck/user
+  prod_url: https://openhackgituserprofile.azurewebsites.net/api/healthcheck/user
   resource_group: openhackgitrg
   build_name: userprofile
 
