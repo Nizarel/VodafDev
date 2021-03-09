@@ -9,6 +9,7 @@ env:
   staging_url: https://openhackgittrips-staging.azurewebsites.net/api/healthcheck/trips
   prod_url: https://openhackgittrips.azurewebsites.net/api/healthcheck/trips
   resource_group: openhackgitrg
+  build_name: trips
 
 on:
   push:
