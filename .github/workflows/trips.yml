@@ -148,6 +148,12 @@ jobs:
         url-to-hit: ${{ env.staging_url }}
         expected-statuses: "200"
 
+    - name: OWASP ZAP Full Scan
+      uses: zaproxy/action-full-scan@v0.2.0
+      with:
+        token: ${{secrets.GITHUB_TOKEN}}
+        target: ${{ env.staging_url }}
+
     - uses: actions/github-script@0.9.0
       if: failure()
       with:
