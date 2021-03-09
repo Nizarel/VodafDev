@@ -10,8 +10,8 @@ env:
   docker_path: apis/user-java
   web_app: openhackgituserjava
   staging_app: staging
-  staging_url: https://openhackgituserjava-staging.azurewebsites.net/api/healthcheck/poi
-  prod_url: https://openhackgituserjava.azurewebsites.net/api/healthcheck/poi
+  staging_url: https://openhackgituserjava-staging.azurewebsites.net/api/healthcheck/user-java
+  prod_url: https://openhackgituserjava.azurewebsites.net/api/healthcheck/user-java
   resource_group: openhackgitrg
   build_name: user-java
 
