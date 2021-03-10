@@ -14,12 +14,12 @@ provider "azurerm" {
 
 # Create a resource group
 resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
+  name     = var.resource_group_name
+  location = var.resource_group_location
 }
 
 resource "azurerm_api_management" "example" {
-  name                = "example-apim"
+  name                = var.apim_name
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   publisher_name      = "My Company"
@@ -33,12 +33,12 @@ resource "azurerm_api_management_api" "example" {
   resource_group_name = azurerm_resource_group.example.name
   api_management_name = azurerm_api_management.example.name
   revision            = "1"
-  display_name        = "Example API"
-  path                = "example"
+  display_name        = var.api_name
+  path                = var.api_path
   protocols           = ["https"]
 
   import {
     content_format = "swagger-link-json"
-    content_value  = "http://conferenceapi.azurewebsites.net/?format=json"
+    content_value  = var.api_url
   }
 }

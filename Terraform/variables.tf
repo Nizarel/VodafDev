@@ -8,12 +8,22 @@ variable "resource_group_location" {
     description = "RG location in Azure"
 }
 
-variable "app_service_plan_name" {
-    type        = string
-    description = "App Service Plan name in Azure"
-}
+variable "apim_name" {
+  type        = string
+  description = "API Management Name"
+  }
 
-variable "app_service_name" {
-    type        = string
-    description = "App Service name in Azure"
-}
+variable "api_name" {
+  type        = string
+  description = "Default API Name"
+  }
+
+variable "api_path" {
+  type        = string
+  description = "Default API Path"
+  }
+
+variable "api_url" {
+  type        = string
+  description = "Default API URL"
+  }
