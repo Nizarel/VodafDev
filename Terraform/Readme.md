@@ -53,6 +53,6 @@ After the Terraform init:
     terraform apply
   
 
-### Destroy the environment
-    terraform destroy
+### update-azure-api-management
+    https://github.com/marketplace/actions/update-azure-api-management-services
   
