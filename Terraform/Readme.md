@@ -52,11 +52,7 @@ After the Terraform init:
     
     terraform apply
   
-# Next steps:
 
-It's important to understand about the terraform states. States are the current state of what terraform thinks your Azure infrastructure looks like, it knows what to delete/create/update from it. So for collaborating with multiple people, this file should be in some sort of backend, for example Azure Storage or AWS S3
-
-This file also contains sensitive data, so it's recommended not to store in source control.
-
-### Store states in an azure storage
-https://docs.microsoft.com/en-us/azure/developer/terraform/store-state-in-azure-storage
+### Destroy the environment
+    terraform destroy
+  
