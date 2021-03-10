@@ -14,6 +14,7 @@ env:
   prod_url: https://openhackgituserjava.azurewebsites.net/api/healthcheck/user-java
   resource_group: openhackgitrg
   build_name: user-java
+  api_name: user-java
 
 
 on:
@@ -100,7 +101,7 @@ jobs:
             body: body
           });
 
-  deploy_staging_webapp:
+  deploy_staging_api:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     needs: docker_build_and_push
@@ -120,12 +121,26 @@ jobs:
         username: ${{ secrets.ACR_USER }}
         password: ${{ secrets.ACR_KEY }}
 
-    - name: 'Deploy to Azure Web App for Container'
+    - name: 'Deploy to Azure API App for Container'
       uses: azure/webapps-deploy@v2
       with: 
         app-name: ${{ env.web_app }}
         slot-name: ${{ env.staging_app }}
         images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}}
+
+    - name: Update Azure API Management Services
+      uses: kipriz/update-azure-api-management@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
+        resourceGroup: ${{ env.resource_group }}
+        serviceName: ${{ env.api_name }} # Name of API in API Management
+        apiName: ${{ env.api_name }} # API Name. Pick it up from tracing request when you open a specific API in "API Management Services" -> APIS 
+        authorization: ${{ secrets.APIM_SAS }}  # authorization from "API Management Services" -> "Management API"  
+        apiPath: "portal_prod" # API path 
+        openApiLink: ${{ env.staging_url }} # Public link to OpenApi file. Should correspond to the format specified in "format" param.
+        format: "openapi+json-link" # Optional. Format of OpenApi file. Default is openapi+json-link , other options is on: https://docs.microsoft.com/en-us/rest/api/apimanagement/2020-06-01-preview/apis/createorupdate#contentformat
+        versionOfApiManagement: ${{ steps.date.outputs.date }} # Optional. Azure's Management API version. Default is "2020-06-01-preview"
+
 
     - uses: actions/github-script@0.9.0
       if: failure()
@@ -140,10 +155,10 @@ jobs:
             body: body
           });
 
-  validate_staging:
+  validate_staging_api:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
-    needs: deploy_staging_webapp
+    needs: deploy_staging_api
     steps:    
     - uses: actions/checkout@v2
 
@@ -152,6 +167,12 @@ jobs:
       with:
         url-to-hit: ${{ env.staging_url }}
         expected-statuses: "200"
+    
+    - name: OWASP ZAP Full Scan
+      uses: zaproxy/action-full-scan@v0.2.0
+      with:
+        token: ${{secrets.GITHUB_TOKEN}}
+        target: ${{ env.staging_url }}
 
     - uses: actions/github-script@0.9.0
       if: failure()
@@ -169,7 +190,7 @@ jobs:
   swap_slots:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    needs: validate_staging
+    needs: validate_staging_api
     steps:
     - name: Azure authentication
       uses: azure/login@v1
@@ -192,7 +213,7 @@ jobs:
             body: body
           });
 
-  validate_production:
+  validate_production_api:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     needs: swap_slots
@@ -204,7 +225,7 @@ jobs:
       with:
         url-to-hit: ${{ env.prod_url }}
         expected-statuses: "200"
-
+        
     - uses: actions/github-script@0.9.0
       if: failure()
       with:
@@ -221,7 +242,7 @@ jobs:
   roll_back:
     if: failure()
     runs-on: ubuntu-latest
-    needs: validate_production
+    needs: validate_production_api
     steps:
     - name: Azure authentication
       uses: azure/login@v1
@@ -243,3 +264,4 @@ jobs:
             title: "${{ env.build_name }} Workflow ${{ github.run_number }} Failed! ",
             body: body
           });
+
