@@ -128,20 +128,6 @@ jobs:
         slot-name: ${{ env.staging_app }}
         images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}}
 
-    # - name: Update Azure API Management Services
-    #   uses: kipriz/update-azure-api-management@v1
-    #   with:
-    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
-    #     resourceGroup: ${{ env.resource_group }}
-    #     serviceName: ${{ env.api_name }} # Name of API in API Management
-    #     apiName: ${{ env.api_name }} # API Name. Pick it up from tracing request when you open a specific API in "API Management Services" -> APIS 
-    #     authorization: ${{ secrets.APIM_SAS }}  # authorization from "API Management Services" -> "Management API"  
-    #     apiPath: "portal_prod" # API path 
-    #     openApiLink: ${{ env.staging_url }} # Public link to OpenApi file. Should correspond to the format specified in "format" param.
-    #     format: "openapi+json-link" # Optional. Format of OpenApi file. Default is openapi+json-link , other options is on: https://docs.microsoft.com/en-us/rest/api/apimanagement/2020-06-01-preview/apis/createorupdate#contentformat
-    #     versionOfApiManagement: ${{ steps.date.outputs.date }} # Optional. Azure's Management API version. Default is "2020-06-01-preview"
-
-
     - uses: actions/github-script@0.9.0
       if: failure()
       with:
@@ -155,7 +141,7 @@ jobs:
             body: body
           });
 
-  validate_staging_api:
+  validate_staging_api_deploy_apim:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     needs: deploy_staging_api
@@ -174,6 +160,19 @@ jobs:
         token: ${{secrets.GITHUB_TOKEN}}
         target: ${{ env.staging_url }}
 
+    # - name: Update Azure API Management Services
+    #   uses: kipriz/update-azure-api-management@v1
+    #   with:
+    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
+    #     resourceGroup: ${{ env.resource_group }}
+    #     serviceName: ${{ env.api_name }} # Name of API in API Management
+    #     apiName: ${{ env.api_name }} # API Name. Pick it up from tracing request when you open a specific API in "API Management Services" -> APIS 
+    #     authorization: ${{ secrets.APIM_SAS }}  # authorization from "API Management Services" -> "Management API"  
+    #     apiPath: "portal_prod" # API path 
+    #     openApiLink: ${{ env.staging_url2 }} # Public link to OpenApi file. Should correspond to the format specified in "format" param.
+    #     format: "openapi+json-link" # Optional. Format of OpenApi file. Default is openapi+json-link , other options is on: https://docs.microsoft.com/en-us/rest/api/apimanagement/2020-06-01-preview/apis/createorupdate#contentformat
+    #     versionOfApiManagement: ${{ steps.date.outputs.date }} # Optional. Azure's Management API version. Default is "2020-06-01-preview"
+
     - uses: actions/github-script@0.9.0
       if: failure()
       with:
@@ -190,7 +189,7 @@ jobs:
   swap_slots:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    needs: validate_staging_api
+    needs: validate_staging_api_deploy_apim
     steps:
     - name: Azure authentication
       uses: azure/login@v1

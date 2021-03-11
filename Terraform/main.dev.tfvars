@@ -1,6 +1,6 @@
 resource_group_name     = "apim-test-rd"
 resource_group_location = "east us"
-apim_name = "voda-apim-test"
+apim_name = "inwi-apim-test"
 api_name = "POI API"
 api_path = "poi"
 api_url = "http://kub.nizare.biz/api"
