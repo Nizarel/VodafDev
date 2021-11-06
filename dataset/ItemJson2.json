@@ -1,0 +1,22 @@
+{
+	"name": "ItemJson2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@concat(pipeline().RunId,'.json')",
+					"type": "Expression"
+				},
+				"container": "ittemstr"
+			}
+		},
+		"schema": {}
+	}
+}

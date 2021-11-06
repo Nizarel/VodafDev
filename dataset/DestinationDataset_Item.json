@@ -1,5 +1,5 @@
 {
-	"name": "DestinationDataset_sfz",
+	"name": "DestinationDataset_Item",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "CosmosDb01",
