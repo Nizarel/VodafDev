@@ -26,7 +26,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT [value] FROM OPENJSON(\n  (SELECT\n    i.ItemId,\n    i.VoteCount,\n    i.ProductName, \n    i.ImdbId,\n    i.Description,\n    i.ImagePath, \n    i.ThumbnailPath,\n    i.UnitPrice, \n    i.Popularity, \n    i.OriginalLanguage,\n    i.ReleaseDate, \n    i.VoteAverage,\n    (select BuyCount, ViewDetailsCount, AddToCartCount, VoteCount from ItemAggregate ia where ia.ItemId = i.ItemId for json auto) as ItemAggregate\n   FROM Item i FOR JSON PATH)\n)",
+						"sqlReaderQuery": "SELECT [value] FROM OPENJSON(\n  (SELECT\n    i.ItemId,\n    i.VoteCount,\n    i.ProductName, \n    i.ImdbId,\n    i.Description,\n    i.ImagePath, \n    i.ThumbnailPath,\n    i.UnitPrice, \n\tc.CategoryName as Category,\n    i.Popularity, \n    i.OriginalLanguage,\n    i.ReleaseDate, \n    i.VoteAverage,\n    (select BuyCount, ViewDetailsCount, AddToCartCount, VoteCount from ItemAggregate ia where ia.ItemId = i.ItemId for json auto) as ItemAggregate,\n\t(select CartItemId, CartId, Quantity, DateCreated from Cartitem ic where ic.ItemId = i.ItemId for json auto) as Cartitem\n   FROM Item i INNER JOIN Category c ON (c.CategoryId = i.CategoryId) FOR JSON PATH)\n)",
 						"partitionOption": "None"
 					},
 					"sink": {
