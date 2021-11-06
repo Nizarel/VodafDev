@@ -1,0 +1,16 @@
+{
+	"name": "SourceDataset_bhw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlDb1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "User"
+		}
+	}
+}
