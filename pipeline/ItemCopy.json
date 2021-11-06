@@ -57,9 +57,16 @@
 				]
 			},
 			{
-				"name": "Copy data1",
+				"name": "BlobJsonToCosmosItem",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "SqlJson2ItemBlobText",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -80,11 +87,21 @@
 							"type": "JsonReadSettings"
 						}
 					},
+					"sink": {
+						"type": "CosmosDbSqlApiSink",
+						"writeBehavior": "insert"
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "ItemJson2",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_Item",
 						"type": "DatasetReference"
 					}
 				]
