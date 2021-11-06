@@ -26,12 +26,19 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT i.ItemId, i.VoteCount, i.ProductName, i.ImdbId, i.Description, i.ImagePath, i.ThumbnailPath, i.UnitPrice, c.CategoryId, c.CategoryName as Category, i.Popularity, \r\n       i.OriginalLanguage, i.ReleaseDate, i.VoteAverage\r\nFROM Item i INNER JOIN Category c ON (c.CategoryId = i.CategoryId)",
+						"sqlReaderQuery": "SELECT [value] FROM OPENJSON(\n  (SELECT\n    i.ItemId,\n    i.VoteCount,\n    i.ProductName, \n    i.ImdbId,\n    i.Description,\n    i.ImagePath, \n    i.ThumbnailPath,\n    i.UnitPrice, \n    i.Popularity, \n    i.OriginalLanguage,\n    i.ReleaseDate, \n    i.VoteAverage,\n    (select BuyCount, ViewDetailsCount, AddToCartCount, VoteCount from ItemAggregate ia where ia.ItemId = i.ItemId for json auto) as ItemAggregate\n   FROM Item i FOR JSON PATH)\n)",
 						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "CosmosDbSqlApiSink",
-						"writeBehavior": "insert"
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"validateDataConsistency": false
@@ -44,7 +51,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_sfz",
+						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					}
 				]
