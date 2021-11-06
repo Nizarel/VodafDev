@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_sfz",
+				"name": "ItemCopy",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
