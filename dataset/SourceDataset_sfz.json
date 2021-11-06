@@ -1,0 +1,12 @@
+{
+	"name": "SourceDataset_sfz",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlDb1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}

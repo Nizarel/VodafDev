@@ -1,0 +1,55 @@
+{
+	"name": "ItemCopy",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_sfz",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "."
+					},
+					{
+						"name": "Destination",
+						"value": "Item"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT i.ItemId, i.VoteCount, i.ProductName, i.ImdbId, i.Description, i.ImagePath, i.ThumbnailPath, i.UnitPrice, c.CategoryId, c.CategoryName as Category, i.Popularity, \r\n       i.OriginalLanguage, i.ReleaseDate, i.VoteAverage\r\nFROM Item i INNER JOIN Category c ON (c.CategoryId = i.CategoryId)",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "CosmosDbSqlApiSink",
+						"writeBehavior": "insert"
+					},
+					"enableStaging": false,
+					"validateDataConsistency": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_sfz",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_sfz",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
