@@ -1,0 +1,85 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@concat(pipeline().RunId,'.json')",
+					"type": "Expression"
+				},
+				"container": "storedb"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"OrderID": {
+					"type": "integer"
+				},
+				"OrderDate": {
+					"type": "string"
+				},
+				"FirstName": {
+					"type": "string"
+				},
+				"LastName": {
+					"type": "string"
+				},
+				"Address": {
+					"type": "string"
+				},
+				"City": {
+					"type": "string"
+				},
+				"State": {
+					"type": "string"
+				},
+				"PostalCode": {
+					"type": "string"
+				},
+				"Country": {
+					"type": "string"
+				},
+				"Phone": {
+					"type": "string"
+				},
+				"SMSOptin": {
+					"type": "boolean"
+				},
+				"Email": {
+					"type": "string"
+				},
+				"Total": {
+					"type": "number"
+				},
+				"OrderDetails": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"OrderDetailId": {
+								"type": "integer"
+							},
+							"ProductId": {
+								"type": "integer"
+							},
+							"UnitPrice": {
+								"type": "number"
+							},
+							"Quantity": {
+								"type": "integer"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
