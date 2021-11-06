@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "ohdf002"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
 		"CosmosDb01_connectionString": {
 			"value": ""
 		},
